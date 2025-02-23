@@ -2,7 +2,7 @@
 
 ## Overview  
 
-In this assignment, you will parallelize a **2D Lattice Boltzmann (LBM) fluid simulation** using OpenMP. Building upon the provided serial code, your goal is to introduce multi-threading and evaluate its impact on performance. The simulation will be executed on `cs455.cs.uic.edu` using varying thread counts: **1, 2, 4, 8, and 16**.  
+In this assignment, you will parallelize a **2D Lattice Boltzmann (LBM) fluid simulation** using OpenMP. Building upon the provided serial code, your goal is to introduce multi-threading and evaluate its impact on performance. The simulation will be executed on `cs455.cs.uic.edu` using varying thread counts: **1, 2, 4, 8, and 16**. The baseline for `cs455` machine is **3756.8544s**. 
 
 To assess the effectiveness of parallelization, you will record execution times (`fluid.csv`) for key components of the simulation, including:  
 
