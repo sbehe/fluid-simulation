@@ -1,8 +1,36 @@
 # OpenMP Parallelization of LBM Simulation (100 points)
 
+## Weekly Speedup Challenge
+<table>
+  <tr>
+    <th>Week</th>
+    <th colspan="3">Results (speedup)</th>
+  </tr>
+  <tr>
+    <td><b>One</b> (02/25)</td>
+    <td>🥇</td>
+    <td>🥈</td>
+    <td>🥉</td>
+  </tr>
+  <tr>
+    <td><b>Two</b> (03/04)</td>
+    <td>🥇</td>
+    <td>🥈</td>
+    <td>🥉</td>
+  </tr>
+  <tr>
+    <td><b>Three</b> (03/11)</td>
+    <td>🥇</td>
+    <td>🥈</td>
+    <td>🥉</td>
+  </tr>
+</table>
+
 ## Overview  
 
 In this assignment, you will parallelize a **2D Lattice Boltzmann (LBM) fluid simulation** using OpenMP. Building upon the provided serial code, your goal is to introduce multi-threading and evaluate its impact on performance. The simulation will be executed on `cs455.cs.uic.edu` using varying thread counts: **1, 2, 4, 8, and 16**. The baseline for `cs455` machine is **3756.8544s**. 
+
+Inorder to get **75** points you must get at least **1.5x** or **2.5x** speedup for **85** points, these are base numbers, plots and reflection add value to your final score.
 
 To assess the effectiveness of parallelization, you will record execution times (`fluid.csv`) for key components of the simulation, including:  
 
@@ -96,6 +124,7 @@ The primary objectives of this assignment are:
    	- **reflection.txt** describing your parallelization strategy and findings.
 - Document your experience parallelizing the LBM fluid simulation in `reflection.txt` for this assignment. Describe your approach to parallelizing loops and optimizing workload distribution. Discuss any synchronization challenges, data races, or load balancing issues you encountered and how you resolved them. Analyze the observed speedup compared to ideal scaling, identifying potential bottlenecks. Finally, suggest optimizations or future improvements, considering factors like memory access patterns, scheduling strategies, and alternative parallelization techniques.
 - When your program is ready for grading, commit and push your local repository following the Assignment Submission Instructions.
+- The baseline for `cs455` machine is **3756.8544s**. Inorder to get **75** points you must get at least **1.5x** or **2.5x** speedup for **85** points, these are base numbers, plots and reflection add value to your final score.
 - Your work will be evaluated on your adherence to instructions, code quality, file naming, completeness, and your reflection on the assignment.
 
 ## Additional Resources
