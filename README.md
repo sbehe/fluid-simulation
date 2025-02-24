@@ -109,7 +109,7 @@ The primary objectives of this assignment are:
      - `computation.png`  
 7. **Compete for Fastest Code**  (**Extra Credit:** 3pts for first, 2pts for second, 1pts for third, each week)
    - Run the **original serial code** (or set `OMP_NUM_THREADS=1`) to establish a baseline performance metric.  
-   - Compare the **16-thread performance** against this serial baseline to compute speedup using: Speedup = $\left(\frac{T_\text{serial}}{T_\text{parallel}}\right)$
+   - Compare the **16-thread performance** against this serial baseline (**3756.8544s**) to compute speedup using: Speedup = $\left(\frac{T_\text{serial}}{T_\text{parallel}}\right)$
    - Create a branch `week{0,1,2}-<number of speed up>` (e.g., `week0-32.3`, `week1-48.2`)
    
 
