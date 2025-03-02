@@ -1,3 +1,12 @@
+/*
+	Sabyasachi Behera
+	P01 - Islands in the stream
+	Mar 02 2025
+
+	I certify that this is my work and, where appropriate, an extension of the starter code provided
+    for the assignment.
+ */
+
 #include <cmath>
 #include <cstdint>
 #include <memory>
@@ -544,10 +553,10 @@ int main(int argc, char** argv)
     double maxValue = 1.757;
 
     // Open CSV file for timing output.
-    std::ofstream csvFile("fluid.csv");
+    std::ofstream csvFile("thread_01.csv");
     if (!csvFile.is_open())
     {
-        std::cerr << "Error: Could not open fluid.csv for writing." << std::endl;
+        std::cerr << "Error: Could not open fluid_serial.csv for writing." << std::endl;
         return 1;
     }
     csvFile << "Timestep,SimStepTime,ImageConversionTime,ImageWriteTime\n";

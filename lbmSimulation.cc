@@ -1,3 +1,12 @@
+/*
+	Sabyasachi Behera
+	P01 - Islands in the stream
+	Mar 02 2025
+
+	I certify that this is my work and, where appropriate, an extension of the starter code provided
+    for the assignment.
+ */
+
 #include <cmath>
 #include <cstdint>
 #include <memory>
@@ -10,7 +19,7 @@
 #include <vector>
 #include <limits>
 #include <string>
-
+#include <omp.h>
 /**
  * @file lbmSimulation.cc
  * @brief A 2D Lattice Boltzmann (LBM) simulation for computational fluid dynamics.
@@ -158,6 +167,7 @@ static void setEquilibrium(LBMData& lbmData,
 // -----------------------------------------------------------------------------
 void initBarrier(LBMData& lbmData, BarrierType barrierType)
 {
+    #pragma omp parallel for //collapse(2)
     for (int j = 0; j < static_cast<int>(lbmData.dimY); j++)
     {
         const int row = j * lbmData.dimX;
@@ -208,6 +218,7 @@ void initBarrier(LBMData& lbmData, BarrierType barrierType)
 // -----------------------------------------------------------------------------
 void initFluid(LBMData& lbmData, double speed)
 {
+    #pragma omp parallel for //collapse(2)
     for (int j = 0; j < static_cast<int>(lbmData.dimY); j++)
     {
         const int row = j * lbmData.dimX;
@@ -226,6 +237,7 @@ void collide(LBMData& lbmData, double viscosity)
 {
     const double omega = 1.0 / (3.0 * viscosity + 0.5); // Relaxation parameter
 
+    #pragma omp parallel for //collapse(2)
     for (int j = 1; j < static_cast<int>(lbmData.dimY) - 1; j++)
     {
         const int row = j * lbmData.dimX;
@@ -287,6 +299,7 @@ void collide(LBMData& lbmData, double viscosity)
 void stream(LBMData& lbmData)
 {
     // NW direction streaming.
+    #pragma omp parallel for //collapse(2)
     for (int j = static_cast<int>(lbmData.dimY) - 2; j > 0; j--)
     {
         const int row  = j * lbmData.dimX;
@@ -299,6 +312,7 @@ void stream(LBMData& lbmData)
     }
 
     // NE direction streaming.
+    #pragma omp parallel for //collapse(2)
     for (int j = static_cast<int>(lbmData.dimY) - 2; j > 0; j--)
     {
         const int row  = j * lbmData.dimX;
@@ -311,6 +325,7 @@ void stream(LBMData& lbmData)
     }
 
     // SE direction streaming.
+    #pragma omp parallel for //collapse(2)
     for (int j = 1; j < static_cast<int>(lbmData.dimY) - 1; j++)
     {
         const int row  = j * lbmData.dimX;
@@ -323,6 +338,7 @@ void stream(LBMData& lbmData)
     }
 
     // SW direction streaming.
+    #pragma omp parallel for //collapse(2)
     for (int j = 1; j < static_cast<int>(lbmData.dimY) - 1; j++)
     {
         const int row  = j * lbmData.dimX;
@@ -340,6 +356,7 @@ void stream(LBMData& lbmData)
 // -----------------------------------------------------------------------------
 void bounceBackStream(LBMData& lbmData)
 {
+    #pragma omp parallel for //collapse(2)
     for (int j = 1; j < static_cast<int>(lbmData.dimY) - 1; j++)
     {
         const int row  = j * lbmData.dimX;
@@ -394,6 +411,7 @@ bool checkStability(const LBMData& lbmData)
     const int midY = lbmData.dimY / 2;
     const int row = midY * lbmData.dimX;
 
+    //#pragma omp parallel for
     for (int i = 0; i < static_cast<int>(lbmData.dimX); i++)
     {
         if (lbmData.density[row + i] <= 0)
@@ -410,6 +428,7 @@ bool checkStability(const LBMData& lbmData)
 // -----------------------------------------------------------------------------
 void computeSpeed(LBMData& lbmData)
 {
+    #pragma omp parallel for //collapse(2)
     for (int j = 1; j < static_cast<int>(lbmData.dimY) - 1; j++)
     {
         const int row = j * lbmData.dimX;
@@ -427,6 +446,7 @@ void computeSpeed(LBMData& lbmData)
 // -----------------------------------------------------------------------------
 void computeVorticity(LBMData& lbmData)
 {
+    #pragma omp parallel for //collapse(2)
     for (int j = 1; j < static_cast<int>(lbmData.dimY) - 1; j++)
     {
         const int row  = j * lbmData.dimX;
@@ -491,8 +511,10 @@ void mapDensityToColor(double value,
  */
 int main(int argc, char** argv)
 {
+    omp_set_num_threads (16);
     // Determine if movie mode is enabled.
     bool movieMode = false;
+    //#pragma omp parallel for
     for (int i = 1; i < argc; i++)
     {
         if (std::string(argv[i]) == "--movie")
@@ -544,10 +566,10 @@ int main(int argc, char** argv)
     double maxValue = 1.757;
 
     // Open CSV file for timing output.
-    std::ofstream csvFile("fluid.csv");
+    std::ofstream csvFile("thread_16.csv");
     if (!csvFile.is_open())
     {
-        std::cerr << "Error: Could not open fluid.csv for writing." << std::endl;
+        std::cerr << "Error: Could not open fluid_parallel.csv for writing." << std::endl;
         return 1;
     }
     csvFile << "Timestep,SimStepTime,ImageConversionTime,ImageWriteTime\n";
@@ -557,6 +579,7 @@ int main(int argc, char** argv)
     double outputTime = 0.0;
     auto totalStart = std::chrono::high_resolution_clock::now();
 
+    //#pragma omp parallel for
     for (uint32_t t = 0; t < timeSteps; t++)
     {
         double conversionTime = 0.0;
@@ -585,6 +608,7 @@ int main(int argc, char** argv)
             std::vector<unsigned char> imageBuffer(dimX * dimY * 3);
 
             auto convStart = std::chrono::high_resolution_clock::now();
+            #pragma omp parallel for collapse(2)
             for (uint32_t j = 0; j < dimY; ++j)
             {
                 for (uint32_t i = 0; i < dimX; ++i)
