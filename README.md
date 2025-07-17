@@ -2,7 +2,7 @@
 
 This project implements a parallelized 2D Lattice Boltzmann Method (LBM) fluid simulation using OpenMP. The simulation efficiently models fluid dynamics and leverages multicore CPUs for performance gains via shared-memory parallelism.
 
-## 🌊 Overview
+## Overview
 
 The simulation performs 2D fluid flow modeling using the Lattice Boltzmann Method, a numerical approach widely used in computational fluid dynamics. This version integrates OpenMP to parallelize key operations across multiple threads, dramatically reducing total runtime for large-scale simulations.
 
@@ -13,7 +13,7 @@ Simulation components:
 
 The simulation runs for 10,000 steps and supports benchmarking with 1, 2, 4, 8, and 16 threads.
 
-## ⚙️ Features
+## Features
 
 - Multithreaded loop parallelism with OpenMP
 - Dynamic scheduling and reduction techniques
@@ -21,7 +21,7 @@ The simulation runs for 10,000 steps and supports benchmarking with 1, 2, 4, 8, 
 - Output of per-timestep metrics to `fluid.csv`
 - Speedup and compute performance plots
 
-## 🛠 Build Instructions
+## Build Instructions
 
 ### Requirements
 - GCC or Clang with OpenMP support
